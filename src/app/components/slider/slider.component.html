@@ -1,5 +1,9 @@
 <!-- SLIDER CENTRAL -->
-<div id="slider" class="slider-big"> <!-- slider-small -->
-    <h1>Bienvenido al Master</h1>
-    <a href="#" class="btn-white">Ir al blog</a>
+<div id="slider" [ngClass]="{
+        'slider-big': !size || size == 'big',
+        'slider-small': size == 'small'
+    }"> <!-- slider-small -->
+    <h1>{{ propiedad_a_comunicar_al_hijo }}</h1>
+    <a *ngIf="!size || size == 'small'" [routerLink]="['/home']" class="btn-white">Ir a Inicio</a>
+    <h4>{{ version }}</h4>
 </div>

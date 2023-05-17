@@ -344,3 +344,172 @@ Con paso de parámetros:
 
    los parámetros van como parámetros de la llamada a Navigate, cada nuevo parámetros será un parámetros en la URL
 
+
+-----------------------
+ Directivas en Angular
+-----------------------
+1. ngIf (condicional):
+
+   <div *ngIf="peliculas.length <= 3">
+       Hay pocas películas
+   </div>
+   <div *ngIf="peliculas.length > 3">
+       Hay muchas películas
+   </div>
+
+   Se puede aplicar a cualquier elemento html. 
+
+2. ngFor (bucle):
+
+   <article class="article-item" *ngFor="let pelicula of peliculas; let i = index;">
+       <div class="image-wrap">
+           <img src="{{ i }} {{ pelicula.image }}" alt="{{ pelicula.title }}"/>
+       </div>
+       <h2>{{ pelicula.title }}</h2>
+   </article>
+
+3. ngStyle (estilos):
+
+   <span class="year" [style.background]="pelicula.year > 2016 ? 'green' : 'red'">{{ pelicula.year }}</span>
+
+4. ngClass (clases css):
+
+   <span class="year" [class.year-green]="pelicula.year > 2016" [class.year-red]="pelicula.year <= 2016">{{ pelicula.year }}</span>
+
+o de esta otra forma más elegante:
+
+   <span class="year" [ngClass]="{
+                                    'year-green': pelicula.year > 2016, 
+                                    'year-red':   pelicula.year <= 2016
+                                 }">
+         {{ pelicula.year }}
+   </span>
+
+5. ngTemplate:
+
+   En angular con el ngIf no podemos hacer directamente un if/else, pero podemos usar una template para ello:
+
+   Caso sin else ni template: con 2 if seguidos (condicion del contrario)
+
+      <div *ngIf="nombre && apellidos">
+         <h2>Datos completos</h2>
+      </div>
+      <div *ngIf="!nombre || !apellidos">
+         <h2>Datos Incompletos</h2>
+      </div>
+
+   Caso con template:
+
+      <div *ngIf="nombre && apellidos; else noHayParametros">
+         <h2>Datos completos</h2>
+      </div>
+      <ng-template #noHayParametros>
+         <h2>Datos Incompletos</h2>
+      </ng-template>
+
+   Otra manera más clara es con una template para cada caso del condicional:
+
+      <div *ngIf="nombre && apellidos; then siHayParametros else noHayParametros">
+      </div>
+
+      <ng-template #siHayParametros>
+         <h2>Datos completos</h2>
+      </ng-template>
+      <ng-template #noHayParametros>
+         <h2>Datos Incompletos</h2>
+      </ng-template>
+
+6. ngSwitch: 
+
+   <p>Resultado:
+      <span [ngSwitch]="operacion">
+         <span *ngSwitchCase="'sumar'">{{valor1+valor2}}</span>
+         <span *ngSwitchCase="'restar'">{{valor1-valor2}}</span>
+         <span *ngSwitchCase="'multiplicar'">{{valor1*valor2}}</span>
+         <span *ngSwitchCase="'dividir'">{{valor1/valor2}}</span>
+         <span *ngSwitchDefault>(No eligió operación)</span>
+      </span>
+   </p>
+
+
+-----------------------------------------------------
+ Modelos en Angular y Comunicación entre Componentes
+-----------------------------------------------------
+Un Modelo es una clase que representará a un tipo de objeto dentro de la aplicación.
+
+Ej. 
+      export class Pelicula {
+      
+         // PROPIEDADES 
+
+         // public title: string;
+         // public year: number;
+         // public image: string;
+
+         // Constructor
+
+         // constructor( title:string, year:number, image:string ) {
+         //     this.title = title;
+         //     this.year = year;
+         //     this.image = image;
+         // }
+
+         // Contructor con la definición de propiedades: ahorramos teclear asignaciones innecesarias
+         // IMPORTANTE: Esto equivale a lo anterior
+
+         constructor (
+            public title: string,
+            public year: number,
+            public image: string
+         ) { }
+      }
+
+Luego con importarlo en alguno de nuestros componentes ya podremos hacer uso del Modelo
+
+
+----------------------------
+ Propiedades INPUT y OUTPUT
+----------------------------
+Permiten comunicarse a los componentes padres e hijos entre ellos.
+
+INPUT: desde el componente padre se envía información al componente hijo.
+
+  Ej. Componente padre: app.component, componente hijo slider.component:
+
+   IMPORTANTE: si no ponemos entre comillas simples el texto a pasar lo busca como propiedad del componente padre, es decir que si no ponemos comillas simples estaríamos pasando el contenido de una propiedad del componente padre
+
+   >>PADRE: app.component.html
+
+      <app-header></app-header>
+      <app-slider
+         [propiedad_a_comunicar_al_hijo]="'valor propiedad desde el padre'"
+      ></app-slider>
+
+      <!-- ARTICULOS Y BARRA LATERAL -->
+      ...
+
+
+   >>HIJO: slider.component.ts
+
+      IMPORTANTE importar el decorador Input y mantener el mismo nombre de la propiedad que en el PADRE
+
+      import { Component, Input } from '@angular/core';
+
+      @Component({
+      selector: 'app-slider',
+      templateUrl: './slider.component.html',
+      styleUrls: ['./slider.component.css']
+      })
+      export class SliderComponent {
+
+         @Input() propiedad_a_comunicar_al_hijo: string = "";
+
+         constructor () {
+
+         }
+      }
+
+
+OUTPUT:
+
+

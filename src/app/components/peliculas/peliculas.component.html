@@ -1,2 +1,43 @@
-<h1 class="subheader">Películas</h1>
+<app-slider [propiedad_a_comunicar_al_hijo]="'Películas'" [size]="'small'"></app-slider>
 
+<!-- ARTICULOS Y BARRA LATERAL -->
+<div class="center">
+    <section id="content">
+
+        <h1 class="subheader">Películas</h1>
+
+        <h2>{{ titulo }}</h2>
+        <button (click)="cambiarTitulo()">Púlsame</button>
+
+        <hr />
+
+        <h2>Mostrar primera película</h2>
+        {{ peliculas[0].title }}
+
+        <hr />
+
+        <h2>Número de películas</h2>
+
+        <div *ngIf="peliculas.length <= 3">
+            Hay pocas películas
+        </div>
+        <div *ngIf="peliculas.length > 3">
+            Hay muchas películas
+        </div>
+        {{ peliculas.length }}
+
+        <hr />
+        <h2 class="subheader">Listado de Películas</h2>
+        <div id="articles" *ngIf="peliculas">
+            <!-- Listado de artículos -->
+            <div *ngFor="let pelicula of peliculas; let i = index;">
+                <app-pelicula
+                    [pelicula] = "pelicula"
+                ></app-pelicula>
+            </div>            
+        </div>
+    </section>
+
+    <app-sidebar></app-sidebar>
+
+</div>

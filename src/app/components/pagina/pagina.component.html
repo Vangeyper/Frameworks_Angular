@@ -1,5 +1,18 @@
-<h1 class="subheader">Página de pruebas</h1>
-<h2 *ngIf="nombre">El nombre es {{ nombre }}</h2>
-<h2 *ngIf="apellidos">Los apellidos son {{ apellidos }}</h2>    
-<button (click)="redireccion()">Indicar Datos de Persona</button>
+<app-slider
+    [propiedad_a_comunicar_al_hijo]="'Página de pruebas'"
+></app-slider>
 
+<!-- ARTICULOS Y BARRA LATERAL -->
+<div class="center">
+  <section id="content">
+    
+    <h1 class="subheader">Página de pruebas</h1>
+    <h2 *ngIf="nombre">El nombre es {{ nombre }}</h2>
+    <h2 *ngIf="apellidos">Los apellidos son {{ apellidos }}</h2>    
+    <button (click)="redireccion()">Indicar Datos de Persona</button>
+
+  </section>
+
+  <app-sidebar></app-sidebar>
+
+</div>
