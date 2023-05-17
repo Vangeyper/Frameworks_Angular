@@ -1,0 +1,346 @@
+-----------------------------------------
+Una aplicación Angular está formada por: 
+-----------------------------------------
+
+    1. Componentes: 
+       Cada componente va a controlar un trozo de pantalla.
+       Un componente dará soporte a una vista interactuando con ella a través de un API (propiedades y métodos).
+       El componente hace de mediador entre la vista (a través de la Plantilla) y la lógica de la app donde se incluirá el modelo de datos.
+       Sería como un Controlador de MVC.
+
+    2. Plantilla: 
+       Cada una de las vistas de la aplicación. HTMLs con sintaxis angular.
+
+    3. Decoradores y Metadatos:
+       Los decoradores (patrón de diseño Decorador) permiten configurar dinámicamente atributos y metadatos de las clases y componentes.
+       Los metadatos van a describir las clases y las relaciones entre los componentes y demás elementos.
+
+    4. Servicios:
+       Son clases con un objetivo claro que facilitan la reutilización. Mediante la inyección de dependencias las podemos usar en otros componentes principales.
+
+    5. Providers:
+       Son servicios que nos proveen de datos o funcionalidades mediante sus métodos. Angular tiene los suyos propios pero podemos crear los nuestros.
+    
+    6. Directivas:
+       Son funcionalidades aplicables al DOM y a los elementos Html en las plantillas de los componentes. Son como atributos para aplicar a cualquier elemento de la plantilla.
+       Ej. 
+            directiva para controlar que un div se muestre o no.
+            directiva para recorrer un array en la vista.
+            directiva para darle un estilo a un elemento.
+            directiva para interactuar con el modelo de datos del componente.
+       
+       Diferentes tipos: estructurales, estructuras condicionales y de control 
+
+    7. Módulos:
+       Angular se puede hacer modular, disponiendo de diferentes módulos que serán reutilizables.
+    
+
+---------------------
+ Instalación Angular
+---------------------
+
+    1. Actualizar o instalar la versión de NodeJs:  https://nodejs.org/es/
+    2. Abrir CMD
+    3. Actualizamos la versión del npm:  npm install -g npm@latest
+    4. Borramos la cache del npm para evitar versiones obsoletas: npm cache clean --force
+    5. Desactivar las auditorías del npm al instalar: npm set audit false
+    6. Desinstalar versiones de Angular CLI si las hubiera. Es el motor de Angular: 
+            npm uninstall -g angular-cli
+            npm uninstall -g @angular/cli
+    7. Borramos de nuevo la cache: npm cache clean --force
+    8. Instalamos Angular CLI: npm install -g @angular/cli@latest
+    9. Creamos nuestro proyecto de angular, para ello vamos al directorio raiz de nuestros proyectos y tecleamos:
+            ng new 
+       Nos preguntará el nombre del proyecto.
+       Indicar que No a añadir Angular Routing, lo haremos después a mano.
+       Indicar CSS 
+       No hacer caso a los warning, solo fijarnos que al final ponga: Successfully initialized git.
+    10. Nos metemos en la carpeta que ha creado en el paso anterior y ejecutamos la compilación y puesta en marcha:
+            ng serve
+    11. Ya podemos trabajar en nuestro proyecto, para ello dejaremos minimizado la pantalla del paso anterior con la ejecución del ng serve
+
+
+---------------------------------
+ Estructura del proyecto inicial
+---------------------------------
+
+1. Archivos de configuración propios de typescript:
+        tsconfig.*     
+        tslint.*
+2. README.md con la documentación acerca del proyecto
+3. Ficheros de instalación de paquetes: package.*
+4. karma.conf.js : fichero para configurar temas de pruebas
+5. angular.json : para configurar el proyecto y cargar scripts, ...
+6. .gitignore : indica los ficheros que no se siguen con git
+7. .editorconfig : fichero de configuración para el editor
+8. carpeta e2e : para temas de testing, en mi versión no está
+9. carpeta de los módulos de node: node_modules
+10. carpeta src: contiene el código
+        main.ts : archivo principal del programa en typescript
+        index.html y styles.css como siempre
+        carpeta app : carpeta que contiene nuestros componentes
+            app.component.ts : componente por defecto
+            app.module.ts : módulo principal
+                podemos hacer tantos módulos como queramos
+            app.component.css y app.component.html son los estilos y vista del componente
+
+
+------------------------
+ Análisis de Componente
+------------------------
+
+Cada trozo de pantalla o vista es un componente, en una app de Angular hay muchos.
+Los componentes tienen extensión: .ts mientras que las vistas serán .html
+
+Importamos la clase Component del core de Angular:
+   import { Component } from '@angular/core';
+
+Declaramos la clase que va a integrar el Componente:
+
+  Indicamos mediante el decorador @Component algunas propiedades de la clase:
+   @Component({
+      selector: 'app-root',                        >> Indica la etiqueta que tiene el componente en el index.html para identificarlo
+      templateUrl: './app.component.html',         >> Vista asociada al componente
+      styleUrls: ['./app.component.css']           >> Hoja de estilos asociada al componente
+   })
+
+  Declaramos la clase propiamente dicha como exportable:
+   export class AppComponent {
+      title = 'AprendiendoAngular';                >> Propiedad title del componente
+   }
+
+  En la vista podremos hacer referencia a las propiedades de la clase Componente mediante los dobles paréntesis:
+      <span>{{ title }} app is running!</span>
+
+
+---------------------
+ Análisis del Módulo
+---------------------
+
+Dentro del módulo tendré que importar el componente que hemos definido y declararlo para que en toda la app se pueda utilizar sin necesidad de volver a importarlo:
+
+   import { NgModule } from '@angular/core';
+   import { BrowserModule } from '@angular/platform-browser';
+
+   import { AppComponent } from './app.component';                      >> lo importamos
+
+   @NgModule({
+   declarations: [
+      AppComponent                                                      >> lo declaramos
+   ],
+   imports: [
+      BrowserModule                                                     >> módulos que queremos importar para uso en el resto del aplicativo
+   ],
+   providers: [],                                                       >> cargamos servicios
+   bootstrap: [AppComponent]                                            >> indicamos el componente incial o principal del aplicativo
+   })
+   export class AppModule { }
+
+
+--------------------------------
+ Propiedades y tipos en Angular
+--------------------------------
+
+Dentro de Angular podemos declarar los tipos de las propiedades y variables. Los tipos serían:
+   Number como number
+   Boolean como boolean
+   String como string
+   Void como void
+   Null como null
+   Undefined como undefined
+   Any como any
+   Array<type>
+
+
+------------------------------------------------------------
+ Generación de componentes en Angular de forma automatizada
+------------------------------------------------------------
+URL de comandos Angular-cli:
+   https://angular.io/cli
+Dentro del directorio donde tenemos angular (ng generate):
+   ng g component carpeta_donde_ubicarlo/nombre_del_componente
+
+   ej. ng g component components/peliculas
+
+Después ejecutamos el servidor de Angular: ng serve
+
+
+-------
+ Hooks
+-------
+Eventos del ciclo de vida de un componente
+Se lanzan formando el ciclo de vida de dicho componente, similar a los eventos de un formulario en .net
+
+OnInit: se ejecuta al iniciarse el ciclo de vida del componente. Es el primer método que se ejecuta después del constructor de nuestro componente
+
+DoCheck: se ejecuta después de cambios de estado en el componente.
+
+OnDestroy: justo antes de destruirse el componente.
+
+   ej. 
+   
+      import { Component, OnInit, DoCheck, OnDestroy } from '@angular/core';
+
+      export class PeliculasComponent implements OnInit, DoCheck, OnDestroy {
+
+         constructor() {}
+
+         ngOnInit() {}
+
+         ngDoCheck() {}
+
+         ngOnDestroy() {}
+      }
+
+
+--------------------------
+ Directivas Condicionales
+--------------------------
+
+Permiten mostrar divs cuando se cumpla una condición:
+Cuando la propiedad del componente peliculas llamada mostrarPeliculas de tipo boolean sea cierta se mostrará el componente dentro del div
+
+   <div *ngIf="mostrarPeliculas">
+      <peliculas></peliculas>
+   </div>
+
+Se pueden aplicar a otros elementos, por ejemplo al <h2>
+Se pueden enlazar varias condiciones con || y && y también el operador !
+   ej. 
+      <h2 *ngIf="nombre && apellidos">{{nombre}} y {{apellido}}</h2>
+      <h2 *ngIf="!nombre && !apellidos">{{nombre}} y {{apellido}}</h2>
+
+
+-----------------------------
+ Botones y click en el mismo
+-----------------------------
+Este código llama al método ocultarPeliculas() del componente al que pertenece la vista al hacer click en el botón Ocultar Películas:
+
+   <button (click)="ocultarPeliculas()">Ocultar Películas</button>
+
+
+----------------------------
+ Añadir una hoja de estilos 
+----------------------------
+Se podría añadir dentro del index.html principal, como siempre un link:
+   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+Pero la forma correcta de hacerlo sería añadiendo la hoja en el fichero angular.json:
+   "styles": [
+      "src/styles.css",
+      "src/assets/css/styles.css"
+   ],
+IMPORTANTE: Tendremos que volver a parar y arrancar el ng serve si queremos que aplique el cambio 
+
+
+---------------------------
+ Configuración del Routing
+---------------------------
+Creamos un nuevo archivo dentro de src/app llamado app.routing.ts
+
+En el interior de este archivo definimos los siguientes apartados:
+
+   // Importar los módulos del router de Angular ( ModuleWithProviders, Routes, RouterModule )
+   // Importar componentes a los cuales quiero hacer una página exclusiva ( HomeComponent, BlogComponent, FormularioComponent, PeliculasComponent, PaginaComponent )
+   // Array de rutas: cada ruta viene definida por un path y el componente que se mostrará 
+         const appRoutes: Routes = [
+            {path: '', component: HomeComponent},
+            {path: 'home', component: HomeComponent},
+            {path: 'blog', component: BlogComponent},
+            {path: 'formulario', component: FormularioComponent},
+            {path: 'peliculas', component: PeliculasComponent},
+            {path: 'pagina-de-pruebas', component: PaginaComponent}
+         ];
+   // Exportar el módulo de rutas: appRoutingProviders, routing
+   // Al mismo tiempo que exportamos el Módulo y el Servicio establecemos todas las rutas definidas
+         RouterModule.forRoot( appRoutes ); 
+
+Dentro del fichero app.module.ts definimos el Modulo y el Servicio exportados anteriormente:
+   dentro del apartado imports indicamos el Módulo:
+      imports: [
+         BrowserModule,
+         routing
+      ],
+   dentro del apartado providers indicamos el Servicio:
+      providers: [ appRoutingProviders ],
+
+En el html del componente principal eliminamos la carga estática de contenido y le ponemos:
+   <section id="content"> 
+      <router-outlet></router-outlet>
+   </section>
+
+   Esta etiqueta lo que hace es detectar si tenemos cargada alguna de las rutas que hemos definido en el app.routing.ts y en ese caso cargar su componente
+
+Crear Ruta para las páginas de error o rutas inexistentes:
+   Creamos un nuevo componente llamado error que solo se mostrará en los casos comentados.
+   En el path definimos "**" que indica que se usará para todas, es importante ponerla la última de la lista de rutas para que no se ejecute antes que cualquier otra, puesto que también entraría para las demás rutas.
+      { path: '**', component: ErrorComponent }
+
+
+--------------------------------------------------------------------
+ Hacer un menú de navegación reactivo y que no recargue las páginas
+--------------------------------------------------------------------
+Modificamos el html del menú de navegación e indicamos el atributo RouterLink para cada enlace indicando su ruta:
+   ej. 
+
+      <li>
+         <a href="index.html">Inicio</a>
+      </li>
+
+      <li>
+         <a [routerLink]="['/home']">Inicio</a>
+      </li>
+
+
+-------------------------------------------------------------------------------------
+ Indicar que un elemento al activarse tenga la clase X (en este caso llamada activa)
+-------------------------------------------------------------------------------------
+<a [routerLink]="['/home']" [routerLinkActive]="['active']">Inicio</a>
+
+   se hace mediante el atributo routerLinkActive y se asigna la correspondiente clase. Esto se hará para todos los elementos del menú de navegación.
+
+
+---------------------------------------
+ Rutas que llevan parámetros en la URL
+---------------------------------------
+Si queremos añadir un parámetro a la ruta:  { path: 'pagina-de-pruebas', component: PaginaComponent },
+Lo hacemos con la siguiente sintaxis: { path: 'pagina-de-pruebas/:nombre', component: PaginaComponent },
+   en este caso deberá llevar el parámetro: nombre
+   al indicar esto en las rutas dejará de existir la ruta pagina-de-pruebas sin indicar ningún parámetro
+   
+Si queremos que el parámetro sea opcional y por lo tanto siga funcionando la ruta si no lo indicamos deberemos crear otra ruta con el mismo enrutado pero sin dicho parámetro
+
+
+-----------------------------------------------------------
+ Recoger el parámetro de una URL en el componente y usarlo
+-----------------------------------------------------------
+En el fichero de la clase del componente hacemos lo siguiente: 
+
+   1. Realizamos la importación siguiente:
+         import { Router, ActivatedRoute, Params } from '@angular/router';
+   2. Creamos variables privadas en el constructor para esas importaciones:
+         constructor (
+            // servicios de enrutado
+            private _route: ActivatedRoute,   // sacar los parámetros de la URL
+            private _router: Router           // redirecciones a otras páginas
+         ) { }
+
+   3. En el evento OnInit hacemos lo siguiente:
+         ngOnInit() {
+            // nos suscribimos a lo que se llama en Angular un Observable, viene a ser un elemento que puede ser asíncrono 
+            this._route.params.suscribe((params) => {
+               console.log(params);  // muestra los parámetros de la URL al llamarla
+            })
+         }
+
+
+--------------------------
+ Redirecciones de una URL
+--------------------------
+Usamos el navigate dentro de los métodos del router:
+   this._router.navigate(['/formulario']);
+
+Con paso de parámetros:
+   this._router.navigate(['/pagina-de-pruebas', 'Victor', 'Robles']);
+
+   los parámetros van como parámetros de la llamada a Navigate, cada nuevo parámetros será un parámetros en la URL
+

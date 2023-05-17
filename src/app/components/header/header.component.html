@@ -1,0 +1,34 @@
+<!-- CABECERA DE PAGINA -->
+<header id="header">
+    <div class="center">
+        <!-- LOGO -->
+        <div id="logo">
+            <img src="assets/images/angular.svg" class="app-logo" alt="Logotipo" />
+            <span id="brand">
+                <b>Curso</b>Angular
+            </span>
+        </div>
+        <!-- Menú de Navegación -->
+        <nav id="menu">
+            <ul>
+                <li>
+                    <a [routerLink]="['/home']" [routerLinkActive]="['active']">Inicio</a>
+                </li>
+                <li>                    
+                    <a [routerLink]="['/blog']" [routerLinkActive]="['active']">Blog</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/formulario']" [routerLinkActive]="['active']">Formulario</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/peliculas']" [routerLinkActive]="['active']">Películas</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/pagina-de-pruebas']" [routerLinkActive]="['active']">Página</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- Limpiar flotados -->
+        <div class="clearfix"></div> <!-- evita que se cuele entre el hueco del menú y el logo lo que pongamos a continuación-->
+    </div>
+</header>
