@@ -512,4 +512,135 @@ INPUT: desde el componente padre se envía información al componente hijo.
 
 OUTPUT:
 
+   Desde el componente hijo se define una propiedad Output que será de tipo EventEmitter (un evento).
+   Tendremos un método que se puede activar de cualquier forma en el componente y que al activarse emitirá dicho evento para que llegue al componente padre:
+         this.MarcarFavorita.emit({ pelicula: pelicula })
+
+   Ej. Componente hijo:
+
+      export class PeliculaComponent {
+
+         @Output() MarcarFavorita = new EventEmitter();
+
+         seleccionar(event: Event, pelicula: Pelicula) {
+            this.MarcarFavorita.emit({
+            pelicula: pelicula
+            })
+         }
+      }
+
+   En el componente padre tendremos la opción de recojer datos (en este ejemplo la pelicula) al capturar el evento que se ha emitido desde el componente hijo.
+   Para ello en la vista html del componente padre declaramos que el evento (MarcarFavorita) se tratará llamando al método mostrarFavorita(event) cuando ocurra dicho evento.
+   La asociación del evento producido en el componente hijo (MarcarFavorita) con el método que lo trata está dentro de las etiquetas que definen el componente hijo: <app-pelicula>
+
+   Vista del componente padre:
+
+        <div id="articles" *ngIf="peliculas">
+            <!-- Listado de artículos -->
+            <div *ngFor="let pelicula of peliculas; let i = index;">
+                <app-pelicula
+                    [pelicula] = "pelicula"
+                    (MarcarFavorita) = "mostrarFavorita($event)"
+                ></app-pelicula>
+            </div>            
+        </div>
+
+   Dentro del componente padre definimos el método que trata el evento:
+
+         mostrarFavorita( event ) {
+            if (event && event.pelicula)
+               this.favorita = event.pelicula;
+         }
+
+   Ya disponemos del dato (pelicula) que nos envió el componente hijo dentro del componente padre.
+
+
+-------
+ PIPES
+-------
+Son pequeñas funcionalidades que tenemos dentro de nuestras vistas: 
+
+   ej. pipe uppercase
+
+         {{ favorita.title | uppercase }}
+
+Ver documentación en angular de las pipes existentes.
+
+Existen pipes para transformar textos, para manejo de fechas, ...
+
+   ej. {{ this.fecha | 'dd/MM/yyyy' }}
+       {{ this.fecha | date }}
+
+
+----------------------
+ PIPES Personalizadas
+----------------------
+Es parecido a crear una clase o componente, pero con determinadas sintaxis y relaciones con los objetos Pipe y PipeTransform:
+
+   ej. 
+      import { Pipe, PipeTransform } from '@angular/core';
+
+      // comprueba si un número es par o impar
+      @Pipe({
+         name: 'espar'
+      })
+      export class EsParPipe implements PipeTransform {
+
+         transform( value: any ) {
+            return value;
+         }
+      }
+
+   Para poder utilizarla en el resto del proyecto deberemos declararla en el Module (app.module.ts):
+
+      // PIPES
+      import { EsParPipe } from './pipes/espar.pipe';
+
+      añadirla en las declaraciones:
+
+         @NgModule({
+            declarations: [
+               ...,
+               EsParPipe
+            ],
+
+
+------------------------
+ Formularios en Angular
+------------------------
+Se define el formulario en la vista html del componente relacionado y el siguiente paso es vincular los campos del formulario con propiedades del componente:
+
+1. Importar el FormsModule en nuestro app.module.ts para que funcionen los Formularios:
+      import { FormsModule } from '@angular/forms';
+2. Dentro de los imports que tenemos en el fichero app.module.ts añadimos FormsModule: 
+      imports: [
+         BrowserModule,
+         routing,
+         FormsModule
+      ],
+3. Definimos el método submit para el formulario dentro de la vista de nuestro componente (formulario html):
+      <form class="mid-form" (ngSubmit)="onSubmit()">
+   El método onSubmit() lo tenemos que definir en nuestro componente:
+      onSubmit() {
+         alert('Enviado!!!');
+      }
+4. Identificamos el formulario:
+      <form class="mid-form" #userForm="ngForm" (ngSubmit)="onSubmit()">
+   Indicando con #userForm el tipo de formulario (ngForm) = formulario de angular
+5. Para cada campo html del formulario a recoger le indicamos:
+      a) identificador y tipo de campo:  #nombre="ngModel"  (le indicamos que es un campo del modelo)
+      b) relación con el objeto y campo del modelo: [(ngModel)]="user.nombre"
+         Esta relación hará que automáticamente en el submit nos informe dicho objeto (user) en su propiedad (nombre)
+      IMPORTANTE: los datos una vez informados (y sin haber hecho el submit) se modifican tanto en el componente como en su propia vista, mostrando en tiempo real lo escrito en el formulario si lo estamos presentando.
+      Es un binging directo!
+6. Indicar si el campo es requerido con el atributo required en cada elemento:
+      <input type="text" name="nombre" #nombre="ngModel" [(ngModel)]="user.nombre" required />
+7. Poner un mensaje condicional a mostrar en caso de no ser correcto y haberse modificado por el usuario (touched):
+      <small *ngIf="!nombre.valid && nombre.touched">El nombre no es válido!</small>
+   Podemos aplicar patrones de HTML5 mediante pattern:
+      <input type="text" name="nombre" #nombre="ngModel" [(ngModel)]="user.nombre" required pattern="[a-zA-Z]+"/>
+   Con esto aplicamos expresiones regulares que deben cumplirse para ese campo
+8. Evitar que se envíe el formulario cuando no sean todos los datos válidos:
+      <input type="submit" value="Enviar" class="btn btn-success" [disabled]="userForm.invalid" />
+
 

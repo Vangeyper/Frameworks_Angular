@@ -7,4 +7,18 @@ import { Component } from '@angular/core';
 })
 export class FormularioComponent {
 
+  public user: any;
+
+  constructor() {
+    this.user = {
+      nombre: '',
+      apellidos: '',
+      bio: '',
+      genero: ''
+    };
+  }
+
+  onSubmit() {
+    alert('Enviado!!!');
+  }
 }
