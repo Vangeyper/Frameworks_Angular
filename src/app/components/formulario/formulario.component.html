@@ -54,6 +54,17 @@
         <div class="clearfix"></div> <!-- evita que se cuele entre el hueco del menú y el logo lo que pongamos a continuación-->
         <input type="submit" value="Enviar" class="btn btn-success" [disabled]="userForm.invalid" />
     </form>
+
+    <h2 class="subheader">
+      Eventos
+    </h2>
+    <!--Click-->
+    <button (click)="hasDadoClick()">Dale click</button>
+    <!--Blur-->
+    <input type="text" [(ngModel)]="campo" (blur)="hasSalido()" (keyup.enter)="hasPulsadoEnter()" />
+    {{ campo }}
+
+
   </section>
 
   <app-sidebar></app-sidebar>

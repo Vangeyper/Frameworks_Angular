@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 export class FormularioComponent {
 
   public user: any;
+  public campo: string;
 
   constructor() {
     this.user = {
@@ -21,4 +22,17 @@ export class FormularioComponent {
   onSubmit() {
     alert('Enviado!!!');
   }
+
+  hasDadoClick() {
+    alert("Has dado CLICK!");
+  }
+
+  hasSalido() {
+    alert("Has salido BLUR!");
+  }
+
+  hasPulsadoEnter() {
+    alert("Has pulsado Enter KEYUP!");
+  }
+
 }

@@ -644,3 +644,121 @@ Se define el formulario en la vista html del componente relacionado y el siguien
       <input type="submit" value="Enviar" class="btn btn-success" [disabled]="userForm.invalid" />
 
 
+---------
+ Eventos
+---------
+(click) -> click en un botón
+(blur) -> abandonar un campo
+(keyup) -> soltar una tecla
+   permite modificadores: ej. (keyup.enter)
+
+
+----------------------
+ Servicios en Angular
+----------------------
+Los componentes de nuestra aplicación tienen un trabajo, presentar datos y permitir que el usuarios interactúe con esa información.
+Tal como la documentación de Angular indica, un Componente no debe tener la responsabilidad de consultar datos o almacenarlos, esa responsabilidad es para los Servicios.
+El trabajo de un servicio es el de controlar la información, desde obtenerla, almacenarla, actualizarla y compartirla con los componentes.
+
+Definir en un fichero el servicio implica algo como:
+
+   import { Injectable } from "@angular/core"; // imprescindible para declarar un servicio
+   import { Pelicula } from "../models/Pelicula";
+
+   @Injectable()                   // decorador del servicio
+   export class PeliculaService {
+      ...
+   }
+
+En el componente que va a hacer uso del servicio lo importamos y luego lo pasamos como parámetro del constructor haciendo uso de sus métodos:
+
+   import { PeliculaService } from 'src/app/services/pelicula.service'; // importamos un servicio
+
+   constructor( 
+      private _peliculaService: PeliculaService // declaramos una variable privada para poder usar el servicio en nuestro constructor
+    ) {    
+      this.titulo = "Componente Películas";
+      this.peliculas = this._peliculaService.getPeliculas();
+      console.log("Constructor lanzado!");    
+   }
+
+
+----------------
+ Servicios HTTP
+----------------
+En el fichero de Modulo: app.module.ts debemos importar:
+
+   import { HttpClientModule } from '@angular/common/http'; // necesario para las peticiones http en Angular
+
+   Lo añadimos a la lista de imports:
+
+      imports: [
+         BrowserModule,
+         routing,
+         FormsModule,
+         HttpClientModule
+      ],
+
+En nuestro servicio Http importamos:
+
+   import { Injectable } from "@angular/core";
+   import { HttpClient, HttpHeaders } from '@angular/common/http';
+   import { Observable } from "rxjs";
+   import { Article } from "../models/Article";
+
+Definimos el servicio:
+
+   @Injectable()
+   export class ArticleService {
+
+      public url: string;
+
+      constructor(
+         private _http: HttpClient
+      ) {
+         this.url = Global.url;
+         console.log('>>>>>>>>>>>' + this.url);
+      }
+
+      getArticles():Observable<any> {
+         return this._http.get(this.url + 'articles');
+      }
+   }
+
+Usamos el servicio en nuestro componente:
+
+   Lo importamos:  
+      import { ArticleService } from 'src/app/services/article.service'; // importamos el servicio de artículos
+   
+   Lo añadimos como Provider del componente:
+      @Component({
+         selector: 'app-blog',
+         templateUrl: './blog.component.html',
+         styleUrls: ['./blog.component.css'],
+         providers: [ArticleService]  // para uso del servicio de artículos
+      })
+
+   Lo usamos en el componente:
+      export class BlogComponent implements OnInit {
+
+         constructor(
+            private _articleService: ArticleService
+         ) {
+
+         }
+
+         ngOnInit(): void {
+            console.log(this._articleService.pruebasServicio());
+
+
+            this._articleService.getArticles().subscribe( 
+               ( response ) => { 
+                  console.log( response )
+               },        
+               ( error ) => { 
+                  console.log( error )         
+               }
+            );
+            
+         }
+      }
