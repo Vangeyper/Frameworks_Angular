@@ -1,16 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ArticleService } from 'src/app/services/article.service';
+import { Article } from 'src/app/models/Article';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  providers: [ArticleService]
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
     public title: string;
+    public articles: Article[];
 
-    constructor () {
+    constructor (
+      private _articleService: ArticleService
+    ) {      
 
       this.title = 'Últimos artículos';
+    }
+
+    ngOnInit(): void {
+      this._articleService.getArticles(true).subscribe(
+        ( response ) => { 
+          if( response.articles ) {
+            this.articles = response.articles;
+          } 
+        },        
+        ( error ) => { 
+          console.log( error );        
+        }
+      )
     }
 }

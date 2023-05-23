@@ -3,6 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { routing, appRoutingProviders } from './app.routing';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'; // necesario para las peticiones http en Angular
+//import { MomentModule } from 'angular2-moment';
+//import * as moment_ from 'moment';
+//export const moment = moment_["default"];
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -20,6 +23,8 @@ import { PeliculaComponent } from './components/pelicula/pelicula.component';
 
 // PIPES
 import { EsParPipe } from './pipes/espar.pipe';
+import { ArticlesComponent } from './components/articles/articles.component';
+import { AmTimeAgoPipe } from './pipes/amTimeAgo.pipe';
 
 @NgModule({
   declarations: [
@@ -36,13 +41,16 @@ import { EsParPipe } from './pipes/espar.pipe';
     PeliculasComponent,
     ErrorComponent,
     PeliculaComponent,
-    EsParPipe
+    EsParPipe,
+    ArticlesComponent,
+    AmTimeAgoPipe
   ],
   imports: [
     BrowserModule,
     routing,
     FormsModule,
     HttpClientModule
+    //MomentModule
   ],
   providers: [ appRoutingProviders ],
   bootstrap: [AppComponent]

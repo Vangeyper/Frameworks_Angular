@@ -10,8 +10,10 @@ export class EsParPipe implements PipeTransform {
         let espar: string = "No es par";
 
         if ( value % 2 === 0) {
-            espar = "Es par"
+            espar = "Es par";
         }
         return "El año es: " + value + " y " + espar;
     }
 }
+
+

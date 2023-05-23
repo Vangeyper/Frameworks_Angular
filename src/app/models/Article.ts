@@ -12,7 +12,7 @@ export class Article {
         public title: string,
         public content: string,
         public image: string,
-        public date: any
+        public date: Date
     ) {
         
     }
