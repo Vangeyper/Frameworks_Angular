@@ -30,4 +30,9 @@ export class ArticleService {
         
         return this._http.get( this.url + articles );
     }
+
+    getArticle( articleId ):Observable<any> {
+
+        return this._http.get( this.url + 'article/' + articleId );
+    }
 }

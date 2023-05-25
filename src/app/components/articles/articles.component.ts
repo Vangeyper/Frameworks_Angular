@@ -15,5 +15,5 @@ export class ArticlesComponent {
   constructor() {
     this.url = Global.url;
   }
-
+  
 }

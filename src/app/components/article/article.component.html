@@ -1,0 +1,36 @@
+<app-slider
+    [propiedad_a_comunicar_al_hijo]="'Blog'"
+    [size]="'small'"
+></app-slider>
+
+<!-- ARTICULOS Y BARRA LATERAL -->
+<div class="center">
+  <section id="content">
+    <article class="article-item article-detail">
+        <div class="image-wrap">
+            <img src="https://astelus.com/wp-content/viajes/Lago-Moraine-Parque-Nacional-Banff-Alberta-Canada.jpg" alt="Paisaje Canadá"/>
+        </div>
+        <h1 class="subheader">{{article.title}}</h1>
+        <span class="date">{{ article.date | amTimeAgo }}</span>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eu odio consectetur, porttitor ligula at, varius mi. Aliquam dictum vehicula odio, quis interdum odio pretium vitae. Curabitur gravida ex finibus, dictum lorem at, vehicula orci. Vestibulum elementum vitae justo et efficitur. Sed rutrum ipsum nec pharetra lobortis. Maecenas feugiat nibh sed suscipit mollis. Aenean facilisis nunc nec ligula finibus lacinia. Proin vehicula dignissim ornare. Suspendisse facilisis cursus erat nec suscipit. Sed aliquet feugiat eleifend.
+        </p>
+        <p>
+            Aenean euismod, nunc a condimentum ullamcorper, ante tortor maximus nisi, non imperdiet dolor lectus et sem. Etiam quis sapien quis tortor dapibus porttitor. In eleifend felis id aliquet euismod. Aliquam erat volutpat. Proin laoreet aliquet interdum. Suspendisse iaculis lobortis quam porttitor auctor. Donec consectetur metus ante, in aliquet arcu maximus rhoncus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean sagittis turpis arcu, vitae semper metus scelerisque non. Phasellus tincidunt mattis ex, eu sodales arcu. Nulla eros libero, aliquam sed erat in, dignissim malesuada magna. Morbi eu condimentum libero. Vestibulum ac augue nisl.
+        </p>
+        <p>
+            Aliquam non ornare lectus. Curabitur urna lectus, feugiat ut dignissim blandit, porta non neque. Sed euismod scelerisque velit, nec mattis turpis blandit sit amet. Nulla rhoncus ex felis, in consectetur orci placerat vel. Nulla egestas egestas lacus ac imperdiet. Phasellus at purus aliquet dui vehicula rutrum. Nam sollicitudin erat sapien, auctor blandit sapien porttitor porta. Suspendisse accumsan et tellus vel aliquet. Integer blandit sapien id eros pretium tristique. Suspendisse volutpat massa sit amet vehicula pharetra. Pellentesque gravida aliquet lacinia.
+        </p>    
+        <p>
+            Suspendisse vel tempus mi, ac scelerisque ante. Duis laoreet laoreet turpis ut fringilla. Integer egestas, lectus a ultrices ultricies, ipsum metus pulvinar tellus, sit amet dapibus magna augue eget tellus. Sed quis libero pellentesque, dictum urna sed, semper magna. Duis vel ipsum vitae elit pretium malesuada. Nulla posuere nisi ut aliquam imperdiet. Quisque commodo, sem molestie bibendum ornare, orci lacus malesuada diam, a vehicula mi libero in nunc. Curabitur fermentum ullamcorper mi, et eleifend ipsum sodales a. Sed mi metus, accumsan in erat sed, volutpat mattis diam. Sed pulvinar ante eget leo laoreet dapibus. Nulla molestie vehicula enim et pharetra. Curabitur sem sem, dapibus eu efficitur aliquet, facilisis eget sapien.
+        </p>
+        <p>
+            In id molestie metus, et dignissim ex. Nulla facilisi. Mauris laoreet sit amet est in varius. In tempor ex pulvinar justo vulputate auctor. Nulla non mauris sit amet odio porttitor ullamcorper. Mauris a iaculis enim, vitae tristique dui. Cras orci justo, sodales in aliquet non, suscipit ac arcu. Pellentesque id turpis nunc. Nam non enim id nunc semper aliquam quis non mauris. Nunc fringilla vestibulum vulputate. Sed rutrum nisi sed nisl vehicula, sit amet blandit sapien molestie.
+        </p>
+    </article>
+
+  </section>
+
+  <app-sidebar></app-sidebar>
+
+</div>

@@ -25,6 +25,7 @@ import { PeliculaComponent } from './components/pelicula/pelicula.component';
 import { EsParPipe } from './pipes/espar.pipe';
 import { ArticlesComponent } from './components/articles/articles.component';
 import { AmTimeAgoPipe } from './pipes/amTimeAgo.pipe';
+import { ArticleComponent } from './components/article/article.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { AmTimeAgoPipe } from './pipes/amTimeAgo.pipe';
     PeliculaComponent,
     EsParPipe,
     ArticlesComponent,
-    AmTimeAgoPipe
+    AmTimeAgoPipe,
+    ArticleComponent
   ],
   imports: [
     BrowserModule,

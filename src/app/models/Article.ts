@@ -8,12 +8,11 @@
 export class Article {
 
     constructor(
-        private _id: string,
+        public _id: string,
         public title: string,
         public content: string,
         public image: string,
         public date: Date
-    ) {
-        
-    }
+    ) { }
+
 }
