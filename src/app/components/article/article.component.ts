@@ -3,6 +3,8 @@ import { ArticleService } from 'src/app/services/article.service'; // cargamos e
 import { Article } from 'src/app/models/Article';
 // para recoger un parámetro que viene en la url
 import { Router, ActivatedRoute, Params } from '@angular/router';
+// para recoger la url
+import { Global } from 'src/app/services/Global';
 
 @Component({
   selector: 'app-article',
@@ -13,31 +15,32 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 export class ArticleComponent implements OnInit {
 
   public article: Article;
+  public url: string;
 
   constructor(
     public _articleService: ArticleService,
     private _route: ActivatedRoute,
     private _router: Router
-  ) { }
+  ) { 
+    this.url = Global.url;
+  }
 
   ngOnInit(): void {
 
     this._route.params.subscribe( params => {
       const id = params['id'];
-      console.log('encontrado');
-
+      
       this._articleService.getArticle( id ).subscribe(
         ( response ) => {
           if( response.article ) {
-            console.log('encontrado');
             this.article = response.article;
           } else {
-            console.log('no encontrado');
             this._router.navigate(['/home']);
           }
         },
         ( error ) => {
           console.log( error );
+          this._router.navigate(['/home']);
         }
       );
     })

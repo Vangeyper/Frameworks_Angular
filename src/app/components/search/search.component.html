@@ -1,0 +1,20 @@
+<app-slider
+    [propiedad_a_comunicar_al_hijo]="'Búsqueda: ' + search"
+    [size]="'small'"
+></app-slider>
+
+<!-- ARTICULOS Y BARRA LATERAL -->
+<div class="center">
+  <section id="content">
+    <h1 class="subheader">Artículos encontrados</h1>
+
+    <app-articles
+        [articles]="articles"
+    >
+    </app-articles>
+    
+  </section>
+
+  <app-sidebar></app-sidebar>
+
+</div>

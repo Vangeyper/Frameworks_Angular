@@ -35,4 +35,16 @@ export class ArticleService {
 
         return this._http.get( this.url + 'article/' + articleId );
     }
+
+    search( searchString ):Observable<any> {
+        
+        return this._http.get( this.url + 'search/' + searchString );
+    }
+
+    create( article ):Observable<any> {
+        
+        const params = JSON.stringify( article );
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this._http.post( this.url + 'save', params, {headers: headers} );
+    }
 }
