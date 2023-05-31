@@ -3,6 +3,9 @@ import { Article } from 'src/app/models/Article';
 import { ArticleService } from 'src/app/services/article.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
+import { Observable } from 'rxjs';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
+
 @Component({
   selector: 'app-article-new',
   templateUrl: './article-new.component.html',
@@ -15,6 +18,12 @@ export class ArticleNewComponent implements OnInit {
   public article: Article;
   public status: string;
 
+  selectedFile: File;
+  //Es el array que contiene los items para mostrar el progreso de subida de cada archivo
+  message = '';
+  fileName = "";
+  fileInfos: Observable<any>;
+
   constructor(
     private _articleService: ArticleService,
     private _route: ActivatedRoute,
@@ -26,6 +35,29 @@ export class ArticleNewComponent implements OnInit {
 
   ngOnInit(): void {
     
+    //this.fileInfos = this._articleService.getImage();
+  }
+
+  selectFile( event ) {
+
+    this.fileName = event.target.files[0].name;
+    this.selectedFile = event.target.files[0];
+    console.log('Fichero seleccionado: ' + this.selectedFile + ' de nombre: ' + this.fileName );
+
+  }
+
+  upload( ) {
+    
+    console.log('Vamos a subir el fichero: ' + this.selectedFile + ' de nombre: ' + this.fileName );
+    this._articleService.upload( this.selectedFile ).subscribe(
+      event => {          
+          this.fileInfos = this._articleService.getImage( this.fileName );        
+          console.log( '>>> fileInfos: ' + this.fileInfos );
+      },
+      err => {
+        this.message = 'No se puede subir el archivo ' + this.fileName;
+        console.log( '>>> ERROR >>> ' + this.message );
+      });
   }
 
   onSubmit() {

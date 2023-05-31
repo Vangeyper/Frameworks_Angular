@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { routing, appRoutingProviders } from './app.routing';
 import { FormsModule } from '@angular/forms';
+//import { AngularFileUploaderModule } from "angular-file-uploader";
 import { HttpClientModule } from '@angular/common/http'; // necesario para las peticiones http en Angular
 //import { MomentModule } from 'angular2-moment';
 //import * as moment_ from 'moment';
 //export const moment = moment_["default"];
+
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -28,6 +30,7 @@ import { AmTimeAgoPipe } from './pipes/amTimeAgo.pipe';
 import { ArticleComponent } from './components/article/article.component';
 import { SearchComponent } from './components/search/search.component';
 import { ArticleNewComponent } from './components/article-new/article-new.component';
+
 
 @NgModule({
   declarations: [
@@ -56,6 +59,7 @@ import { ArticleNewComponent } from './components/article-new/article-new.compon
     routing,
     FormsModule,
     HttpClientModule
+    //AngularFileUploaderModule
     //MomentModule
   ],
   providers: [ appRoutingProviders ],

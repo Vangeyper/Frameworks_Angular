@@ -17,7 +17,11 @@
           </div>    
           <div class="form-group">
             <label for="image">Imagen</label>
-            <input type="file" name="file0" />
+            <!--<input type="file" name="file0" />-->
+            <input #fileInput type="file" multiple (change)="selectFile($event)" />
+            <button id="uploadButton" mat-raised-button *ngIf="selectedFile" [disabled]="!selectedFile" (click)="upload()">
+              Subir Archivo
+            </button>
           </div>        
           <div class="clearfix"></div> <!-- evita que se cuele entre el hueco del menú y el logo lo que pongamos a continuación-->
           <input type="submit" value="Enviar" class="btn btn-success" [disabled]="articleForm.invalid" />

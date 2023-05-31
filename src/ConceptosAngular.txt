@@ -762,3 +762,69 @@ Usamos el servicio en nuestro componente:
             
          }
       }
+
+
+----------------------
+ CORS y sus problemas
+----------------------
+
+Obtenemos el error de seguridad provocado al invocar al backend desde un dominio diferente al del mismo: 
+
+ej. Access to XMLHttpRequest at 'http://localhost:3900/api//upload-image' from origin 'http://localhost:4200' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: It does not have HTTP ok status.
+
+Para evitar este error creamos un fichero json de configuración de proxy que luego le indicaremos a nuestro inicio de angular:
+
+1. en la raiz del proyecto llamante creamos el fichero proxy.conf.json con este contenido
+      {
+         "/api/*": {
+            "target":"http://localhost:3900",
+            "secure": false,
+            "loglevel": "debug"
+         }
+      }
+
+   Cumpliendo que /api/ es el inicio de nuestras llamadas a nuestro backend y que http://localhost:3900 es la url del mismo.
+
+   Si tenemos el backend en otra máquina diferente a la local hay que indicar otra variable especificando que el origen es diferente:
+
+      {
+         "/api/*": {
+            "target":"http://localhost:3900",
+            "secure": true,     // habría seguramente que indicar que lleva ssl por estar en otro servidor
+            "loglevel": "debug",
+            "changeOrigin": true
+         }
+      }
+
+2. Modificamos el archivo angular.json de nuestro proyecto para añadir en "serve" la opción proxyConfig:
+
+      "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+      },
+
+3. Modificamos las llamadas a nuestro servicio para que ya no contengan http://localhost:3900 sino que será angular quien lo complete con la información del proxy-config
+
+      ej. 
+      
+      getArticle( articleId ):Observable<any> {
+           return this._http.get( 'http://localhost:3900/api/article/' + articleId );
+      }
+
+   quedaría como: 
+
+      getArticle( articleId ):Observable<any> {
+           return this._http.get( '/api/article/' + articleId );
+      }
+
+
+Otra opción era poner en el archivo package.json la indicación del proxy:  
+
+"scripts": {
+    "ng": "ng",
+    "start": "ng serve --proxy-config proxy.conf.json",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpEvent, HttpRequest, HttpEventType } from '@angular/common/http';
 import { Observable } from "rxjs";
 import { Article } from "../models/Article";
 import { Global } from "./Global";
@@ -13,7 +13,7 @@ export class ArticleService {
     constructor(
         private _http: HttpClient
     ) {
-        this.url = Global.url;
+        this.url = Global.urlBackEnd;
         console.log('>>>>>>>>>>>' + this.url);
     }
 
@@ -44,7 +44,30 @@ export class ArticleService {
     create( article ):Observable<any> {
         
         const params = JSON.stringify( article );
-        const headers = new HttpHeaders().set('Content-Type', 'application/json');
+        const headers = new HttpHeaders()
+            .set('Content-Type', 'application/json')
+            .set('Access-Control-Allow-Origin', '*');
+        console.log(">>>>>>>>> CREATE <<<<<<<<" + this.url);
         return this._http.post( this.url + 'save', params, {headers: headers} );
+    }
+
+    //Metodo que envia los archivos al endpoint /upload-image de nuestro backend 
+    upload(file: File): Observable<HttpEvent<any>>{
+        const formData: FormData = new FormData();
+        formData.append('files', file);
+    
+        console.log(">>>>>>>>> URL >>>>>>>>>> " + `${this.url}/upload-image` + {formData});
+        const headers = new HttpHeaders()
+            .set('Access-Control-Allow-Origin', '*');
+        const req = new HttpRequest('POST', `${this.url}upload-image`, formData, {
+        reportProgress: true,
+        responseType: 'json'
+        });
+        return this._http.request(req);
+    }
+
+    getImage( imageId ):Observable<any> {
+
+        return this._http.get( this.url + 'get-image/' + imageId );
     }
 }
