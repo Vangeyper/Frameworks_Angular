@@ -2,16 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { Article } from 'src/app/models/Article';
 import { ArticleService } from 'src/app/services/article.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-article-new',
-  templateUrl: './article-new.component.html',
-  styleUrls: ['./article-new.component.css'],
+  selector: 'app-article-edit',
+  templateUrl: '../article-new/article-new.component.html',
+  styleUrls: ['./article-edit.component.css'],
   providers: [ArticleService]
 })
-export class ArticleNewComponent implements OnInit {
+export class ArticleEditComponent implements OnInit {
 
   public user: any;
   public article: Article;

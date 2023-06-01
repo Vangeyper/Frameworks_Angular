@@ -770,6 +770,52 @@ Usamos el servicio en nuestro componente:
 
 Obtenemos el error de seguridad provocado al invocar al backend desde un dominio diferente al del mismo: 
 
+Vamos a nuestra aplicación de backend y desde consola instalamos CORS si no lo tenemos en la carpeta node_modules
+
+   npm install cors
+
+Confirmamos que ya tenemos la carpeta de cors dentro de la carpeta node_modules
+
+Dentro de nuestro archivo principal, donde tenemos 
+   // ejecutar express (http)
+   const app = express();
+
+Ponemos antes de esas líneas:
+   // uso de cors para la seguridad
+   const cors = require('cors');
+
+Y justo después:
+   app.use(cors()); // uso de cors para la seguridad
+
+Con esto ya bastaría, pero dejaríamos abierto a todas las urls el acceso, si queremos tener una lista blanca de accesos y otro negra podemos hacer esto en lugar de esta última línea:
+   app.use(cors()); // uso de cors para la seguridad
+   var whiteList = ['http://localhost:4200', '...'];
+
+   var corsOptions = {
+      origin: function ( origin, callback ) {
+         if ( whiteList.indexOf( origin ) != -1 ) {
+            callback( null, true );
+         } else {
+            callback( new Error('Not allowed by CORS') );
+         }
+      }
+   }
+
+Con esto ya podríamos añadir nuesvas urls a la lista blanca para permitir el acceso denegando al resto el mismo.
+
+En las llamadas al backend tendríamos que usar esta variable llamando al cors y pasándola como parámetro:
+
+   app.get( '/', cors( corsOptions ), (res, req) => {
+      res.json( {mensaje: 'ok'} );
+   })
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>  TODO LO QUE VIENE A CONTINUACION DE ESTE TEMA NO HA FUNCIONADO <<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
 ej. Access to XMLHttpRequest at 'http://localhost:3900/api//upload-image' from origin 'http://localhost:4200' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: It does not have HTTP ok status.
 
 Para evitar este error creamos un fichero json de configuración de proxy que luego le indicaremos a nuestro inicio de angular:
